@@ -2566,6 +2566,19 @@ input, select, textarea {
 			margin: 0 0 1.3em 0;
 		}
 
+		.icon.social {
+			width: 0.75em;
+			height: 0.75em;
+			object-fit: cover;
+			vertical-align: middle;
+			border-radius: 50%;
+		}
+
+		.icon.logo.small {
+			width: 1.6em;
+			height: 1.6em;
+		}
+
 		.logo-row {
 			display: -moz-flex;
 			display: -webkit-flex;
