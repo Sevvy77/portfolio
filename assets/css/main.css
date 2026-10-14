@@ -2617,6 +2617,12 @@ input, select, textarea {
 				border-color: #e5484d;
 			}
 
+		.image.fit.hero img {
+			max-height: 36em;
+			object-fit: cover;
+			object-position: center 30%;
+		}
+
 		@media screen and (min-width: 981px) {
 
 			.split.thirds > * {
