@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Netwatch - Isaac Severing</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="images/favicon.png" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Isaac Severing</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="archangel.html">Archangel</a></li>
+						<li><a href="calypso.html">Calypso</a></li>
+						<li><a href="netwatch.html" class="active">Netwatch</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Netwatch</h1>
+							<span class="status-badge wip">Work in progress</span>
+							<div class="logo-row">
+								<img class="icon logo" src="images/netwatch.svg" alt="Serial port icon" />
+							</div>
+							<p>Netwatch is the watchtower of my homelab rack. Named after the corporation that polices the Net in Cyberpunk 2077, it's a simple, low-power mini PC with one job: out-of-band management for every machine in the rack.</p>
+
+							<h2>Why out-of-band?</h2>
+							<p>When a machine locks up, loses its network configuration, or won't finish booting, the usual way in (SSH over the network) tends to go down with it. Out-of-band management gives each machine a second, independent path to its console that doesn't depend on the network being healthy. It's the same idea data centers rely on: when the network itself is the problem, you still need a way in.</p>
+
+							<h2>The plan</h2>
+							<ul>
+								<li><strong>Low-power mini PC</strong>: a small, efficient box that's cheap to leave running around the clock, so it's always available when something else isn't.</li>
+								<li><strong>RS-232 serial adapters</strong>: a direct console connection from Netwatch to each machine in the rack, completely separate from the household network.</li>
+							</ul>
+
+							<ul class="actions">
+								<li><a href="index.html#homelab" class="button">Back to Homelab</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Isaac Severing</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

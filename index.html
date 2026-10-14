@@ -179,7 +179,7 @@
 					<section id="homelab" class="wrapper style2 fade-up">
 						<div class="inner">
 							<h2>Homelab</h2>
-							<div class="split style1">
+							<div class="split thirds">
 								<section>
 									<div class="logo-row">
 										<img class="icon logo" src="images/archlinux.png" alt="Arch Linux logo" />
@@ -187,7 +187,11 @@
 										<img class="icon logo" src="images/netalertx.png" alt="NetAlertX logo" />
 									</div>
 									<h3>Archangel</h3>
-									<p>Archangel is an Arch Linux box configured for automatic updates and snapshot rollbacks, running AdGuard Home to keep the household network safe and filtered and NetAlertX to keep an eye on every device joining the network.</p>
+									<span class="status-badge upgrading">Upgrade in progress</span>
+									<p>Archangel is an Arch Linux box that sits between my modem and the master router of my home mesh system. It's configured for automatic updates and snapshot rollbacks, running AdGuard Home to keep the household network safe and filtered and NetAlertX to keep an eye on every device joining the network. It's currently being upgraded into a high-availability network appliance that fails open: with a NOC-style passthrough network card, traffic keeps flowing to the router even if Archangel goes down.</p>
+									<ul class="actions">
+										<li><a href="archangel.html" class="button">Learn more</a></li>
+									</ul>
 								</section>
 								<section>
 									<div class="logo-row">
@@ -195,7 +199,22 @@
 										<img class="icon logo" src="images/tailscale.png" alt="Tailscale logo" />
 									</div>
 									<h3>Calypso</h3>
-									<p>Calypso is my homemade rackmount AI workstation, running Odysseus AI to serve local models to myself from anywhere in the world through Tailscale.</p>
+									<span class="status-badge wip">Work in progress</span>
+									<p>Calypso is my homemade rackmount AI workstation, hand-built from an older dual-Xeon workstation board. The hardware is up and booting, and I'm now getting local AI models spun up on it before opening Odysseus AI up through Tailscale, so I can reach my own models from anywhere in the world.</p>
+									<ul class="actions">
+										<li><a href="calypso.html" class="button">Learn more</a></li>
+									</ul>
+								</section>
+								<section>
+									<div class="logo-row">
+										<img class="icon logo" src="images/netwatch.svg" alt="Serial port icon" />
+									</div>
+									<h3>Netwatch</h3>
+									<span class="status-badge wip">Work in progress</span>
+									<p>Netwatch is a simple, low-power mini PC named after the corporation that polices the Net in Cyberpunk 2077. It's being set up for out-of-band management of the whole rack, using RS-232 adapters to reach each machine's console even when the network is down.</p>
+									<ul class="actions">
+										<li><a href="netwatch.html" class="button">Learn more</a></li>
+									</ul>
 								</section>
 							</div>
 						</div>
