@@ -2579,18 +2579,29 @@ input, select, textarea {
 			height: 1.6em;
 		}
 
+		.icon.logo.wide {
+			width: auto;
+		}
+
 		.logo-row {
 			display: -moz-flex;
 			display: -webkit-flex;
 			display: -ms-flex;
 			display: flex;
 			align-items: center;
+			flex-wrap: wrap;
 			gap: 1em;
 			margin: 0 0 1em 0;
 		}
 
 			.logo-row .icon.logo {
+				flex-shrink: 0;
 				margin: 0;
+			}
+
+			.logo-row a {
+				border-bottom: 0;
+				display: inline-flex;
 			}
 
 		.status-badge {
@@ -2616,6 +2627,22 @@ input, select, textarea {
 			.status-badge.upgrading {
 				border-color: #e5484d;
 			}
+
+			.status-badge.live {
+				border-color: #e5484d;
+			}
+
+				.status-badge.live:before {
+					background-color: #e5484d;
+					border-radius: 50%;
+					box-shadow: 0 0 0.6em #e5484d;
+					content: '';
+					display: inline-block;
+					height: 0.8em;
+					margin: 0 0.75em 0 0;
+					vertical-align: top;
+					width: 0.8em;
+				}
 
 		.image.fit.hero img {
 			max-height: 36em;

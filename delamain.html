@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Delamain - Isaac Severing</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="images/favicon.png" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Isaac Severing</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="archangel.html">Archangel</a></li>
+						<li><a href="delamain.html" class="active">Delamain</a></li>
+						<li><a href="netwatch.html">Netwatch</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Delamain</h1>
+							<span class="status-badge live">Live</span>
+							<div class="logo-row">
+								<a href="https://github.com/thecodacus/pithagoras" target="_blank" rel="noopener"><img class="icon logo wide" src="images/pithagoras.png" alt="Pithagoras logo" /></a>
+								<img class="icon logo" src="images/qwen.webp" alt="Qwen logo" />
+								<img class="icon logo" src="images/gemma.png" alt="Gemma logo" />
+								<img class="icon logo" src="images/liquidai-white.png" alt="Liquid AI logo" />
+								<img class="icon logo wide" src="images/plano.svg" alt="Plano logo" />
+								<img class="icon logo" src="images/tailscale.png" alt="Tailscale logo" />
+							</div>
+							<p>Delamain is my homemade rackmount AI workstation, running a private AI stack of my own. It's named after the AI in Cyberpunk 2077 that runs a taxi company and decides where every ride goes, which is a fair description of its job: I open a chat from my phone or laptop anywhere in the world, a small router model decides whether the request needs a quick answer or a coding model, and the whole conversation stays on hardware I own. Nothing is exposed to the public internet.</p>
+
+							<h2>The hardware</h2>
+							<p>I built Delamain by hand around an older dual-Xeon workstation board, giving it a second life as a home for local AI. Dual-socket platforms like this one bring plenty of cores, memory capacity, and PCIe lanes to the table, and the stack is laid out to use all of it.</p>
+							<ul>
+								<li><strong>2× Intel Xeon E5-2690 v4</strong>: 28 cores and 56 threads across two sockets, with 128 GB of DDR4 that holds most of the coding model.</li>
+								<li><strong>AMD Radeon RX 6700 XT (12 GB)</strong>: runs the heavy coding model.</li>
+								<li><strong>AMD Radeon RX 570 (4 GB)</strong>: keeps the router and the fast chat model loaded around the clock.</li>
+							</ul>
+							<p>Every model runs on llama.cpp with its Vulkan backend, which drives both generations of AMD card, including the older RX 570 that ROCm no longer supports.</p>
+
+							<h2>The models</h2>
+							<ul>
+								<li><strong>Qwen3.6-35B-A3B</strong>: the main coding model. It's a mixture-of-experts model, so its attention layers and context live on the 6700 XT while most of its experts sit in system RAM on the CPU closest to that card. That's how a 35-billion-parameter model fits a 12 GB GPU and still generates around 17 tokens per second.</li>
+								<li><strong>Liquid AI LFM2.5 (2.6B)</strong>: the fast chat model for everyday questions, answering at around 77 tokens per second from the RX 570.</li>
+								<li><strong>Gemma 4 (12B)</strong>: a lighter coding model I can switch to by hand. It shares the 6700 XT, so selecting it swaps the main coder out.</li>
+								<li><strong>Arch-Router (1.5B)</strong>: a tiny model whose only job is to read each message and pick which of the others should answer it.</li>
+							</ul>
+
+							<h2>How a request flows</h2>
+							<p>I chat through Pithagoras, a self-hosted web UI for the pi coding agent, and pick a path for each conversation. The <strong>direct</strong> path talks straight to the coder or the chat model. The <strong>auto</strong> path goes through Plano, an AI gateway that asks Arch-Router about every message: programming work goes to Qwen, and small talk, facts, and general questions go to the fast chat model. I tuned the route descriptions against a labelled set of test prompts until the router sorted all of them correctly, up from an original wording that sent git and shell questions to the chat model. Behind it all, llama-swap loads and unloads the big models on the 6700 XT on demand, and everything runs as locked-down systemd services.</p>
+
+							<h2>Chasing down a faulty GPU</h2>
+							<p>The first time everything came up, every model on the 6700 XT produced garbage, even the 1.5B router, while the same build gave correct answers on the CPU and the RX 570. A Vulkan memory test found the cause: bit errors on every pass at the card's full memory clock, always on the same data bit. Pinned down to 675 MHz, the card passed 3.6 TB of testing with zero errors and the models answer correctly. A boot-time service now applies that clock before the model server is allowed to start, so the coder never runs at the unsafe speed. Generation speed didn't change, because the experts in system RAM are the real bottleneck.</p>
+
+							<h2>Locked down by default</h2>
+							<ul>
+								<li><strong>Tailscale</strong>: Delamain itself never joins my tailnet. A dedicated Tailscale container does, serving only HTTPS to the web UI, with Funnel off and an access policy that lets only my own devices reach it.</li>
+								<li><strong>Default-drop firewall</strong>: an nftables policy drops all inbound traffic from the local network except SSH.</li>
+								<li><strong>Least privilege</strong>: the model servers listen on localhost only and run as an unprivileged user with systemd sandboxing, and the agent's container is deliberately denied the Docker socket so it can't take over the host.</li>
+							</ul>
+
+							<h2>What's next</h2>
+							<ol>
+								<li><strong>Reboot test</strong>: every service is enabled at boot, but the full stack still needs to prove it comes back on its own after a restart.</li>
+								<li><strong>Tuning</strong>: capping how long the coder thinks on small requests, and putting the Gemma fallback through its paces.</li>
+								<li><strong>A healthy GPU</strong>: replacing the 6700 XT, then retuning the model split for the new card's VRAM.</li>
+							</ol>
+
+							<ul class="actions">
+								<li><a href="index.html#homelab" class="button">Back to Homelab</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Isaac Severing</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
