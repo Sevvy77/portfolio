@@ -246,24 +246,29 @@
 							<p>Based in Columbus, Ohio. Open to conversations about network infrastructure, support engineer positions, and other IT roles — feel free to reach out by email or connect on LinkedIn.</p>
 							<div class="split style1">
 								<section>
-									<form method="post" action="#">
+									<form id="contact-form" method="post" action="https://api.web3forms.com/submit">
+										<input type="hidden" name="access_key" value="11ad475e-e915-4d06-a24b-f7962a8f8c03" />
+										<input type="hidden" name="subject" value="New message from isaacsevering.xyz" />
+										<input type="hidden" name="from_name" value="isaacsevering.xyz" />
+										<input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off" />
 										<div class="fields">
 											<div class="field half">
 												<label for="name">Name</label>
-												<input type="text" name="name" id="name" />
+												<input type="text" name="name" id="name" autocomplete="name" required />
 											</div>
 											<div class="field half">
 												<label for="email">Email</label>
-												<input type="text" name="email" id="email" />
+												<input type="email" name="email" id="email" autocomplete="email" required />
 											</div>
 											<div class="field">
 												<label for="message">Message</label>
-												<textarea name="message" id="message" rows="5"></textarea>
+												<textarea name="message" id="message" rows="5" required></textarea>
 											</div>
 										</div>
 										<ul class="actions">
-											<li><a href="" class="button submit">Send Message</a></li>
+											<li><input type="submit" value="Send Message" /></li>
 										</ul>
+										<p id="contact-status" role="status" aria-live="polite"></p>
 									</form>
 								</section>
 								<section>

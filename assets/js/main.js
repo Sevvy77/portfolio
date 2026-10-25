@@ -44,6 +44,46 @@
 
 			});
 
+		// Contact form (Web3Forms).
+			$('#contact-form').on('submit', function(event) {
+
+				var $form = $(this),
+					$button = $form.find('input[type="submit"]'),
+					$status = $('#contact-status');
+
+				// Send in the background instead of leaving the page.
+					event.preventDefault();
+
+					$button.prop('disabled', true);
+					$status.text('Sending...');
+
+					fetch($form.attr('action'), {
+						method: 'POST',
+						headers: { 'Accept': 'application/json' },
+						body: new FormData(this)
+					})
+						.then(function(response) {
+							return response.json();
+						})
+						.then(function(data) {
+
+							if (data.success) {
+								$form[0].reset();
+								$status.text('Thanks, your message has been sent. I\'ll get back to you soon.');
+							}
+							else
+								$status.text('Sorry, something went wrong: ' + data.message);
+
+						})
+						.catch(function() {
+							$status.text('Sorry, the message couldn\'t be sent. Please email me directly instead.');
+						})
+						.then(function() {
+							$button.prop('disabled', false);
+						});
+
+			});
+
 	// Sidebar.
 		if ($sidebar.length > 0) {
 
